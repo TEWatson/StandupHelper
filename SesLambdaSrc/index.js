@@ -10,7 +10,7 @@ exports.handler = function(event, context, callback) {
     console.log(sender)
     console.log(content)
     standupUpdatesTable
-        .update({hash: sender, range: content })
+        .update({hash: sender}, {content: content})
         .then(function(resp) {
             console.log(resp);
         })
