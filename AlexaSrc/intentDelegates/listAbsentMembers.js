@@ -1,16 +1,12 @@
 'use strict';
 
-module.exports = function(handler, table) {
-
-    const slots = handler.event.request.intent.slots
+module.exports = function(handler, dynasty, table) {
 
     if (slots.Item && slots.Item.value && slots.Location.value) {
-        table
-            .find({hash: handler.event.session.user.userId,
-                    range: slots.Item.value
-                    })
+        dynasty
+            .list(table)
             .then(function(resp){
-                if (resp != undefined) {
+                if (resp.TableNames != undefined) {
                     table.update({ hash: handler.event.session.user.userId,
                             range: slots.Item.value
                             }, {location: slots.Location.value})
