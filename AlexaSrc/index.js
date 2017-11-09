@@ -6,18 +6,16 @@ const languageStrings = require('./languageStrings');
 const listAbsentMembers = require('./intentDelegates/listAbsentMembers');
 const readUpdates = require('./intentDelegates/readUpdates');
 
-const APP_ID = "amzn1.ask.skill.8371afd6-d231-4b54-bf1d-5987733228cd";
+const APP_ID = "amzn1.ask.skill.4a43403d-fa8a-482e-a3f5-f44476344ca8";
 const standupUpdatesTable = dynasty.table('Standup-Updates');
 
 const handlers = {
 
   'ListAbsentMembers': function() {
-      var filledSlots = dialogHandler.call(this)
-      listAbsentMembers(this, dynasty, standupUpdatesTable)
+      listAbsentMembers(this, standupUpdatesTable)
   },
 
   'ReadUpdates': function() {
-      var filledSlots = dialogHandler.call(this)
       readUpdates(this, standupUpdatesTable)
   },
 
