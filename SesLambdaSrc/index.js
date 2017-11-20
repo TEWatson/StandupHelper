@@ -5,10 +5,10 @@ var s3 = new aws.S3({apiVersion: '2006-03-01'});
 const dynasty = require('dynasty')({});
 const parser = require('mailparser').simpleParser;
 const standupUpdatesTable = dynasty.table('Standup-Updates');
-const millisPerDay = 86400;
+const millisEighteenHours = 64800;
 
 function ttl() {
-    return (Math.floor(Date.now() / 1000) + millisPerDay)
+    return (Math.floor(Date.now() / 1000) + millisEighteenHours)
 }
 
 exports.handler = function(event, context, callback) {
