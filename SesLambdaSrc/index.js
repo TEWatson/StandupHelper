@@ -5,6 +5,11 @@ var s3 = new aws.S3({apiVersion: '2006-03-01'});
 const dynasty = require('dynasty')({});
 const parser = require('mailparser').simpleParser;
 const standupUpdatesTable = dynasty.table('Standup-Updates');
+const millisPerDay = 86400;
+
+function ttl() {
+    return (Math.floor(Date.now() / 1000) + millisPerDay)
+}
 
 exports.handler = function(event, context, callback) {
     var sender = 'Unknown';
@@ -32,7 +37,7 @@ exports.handler = function(event, context, callback) {
 
                 // Store sender name and email body in Dynamo
                 standupUpdatesTable
-                    .update({hash: sender}, {content: content})
+                    .update({hash: sender}, {content: content, ttl: ttl()})
                     .then(function(resp) {
                         console.log(resp);
                     });
