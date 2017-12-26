@@ -37,6 +37,11 @@ const handlers = {
   'AMAZON.CancelIntent': function () {
     this.emit('SessionEndedRequest');
   },
+  'Unhandled': function () {
+    this.attributes.speechOutput = this.t('HELP_MESSAGE');
+    this.attributes.repromptSpeech = this.t('HELP_REPROMT');
+    this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
+  }
 };
 
 exports.handler = (event, context) => {
