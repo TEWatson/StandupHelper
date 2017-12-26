@@ -6,7 +6,7 @@ module.exports = function(handler, table) {
     table
         .scan()
         .then(function(resp){
-            if (resp !== undefined) {
+            if (resp !== undefined && resp.length > 0) {
                 handler.emit(':tell', handler.t('FILL_IN_MESSAGE', buildUpdateList(resp)));
             } else {
                 handler.emit(":tell", handler.t('NO_ABSENCES_MESSAGE'))

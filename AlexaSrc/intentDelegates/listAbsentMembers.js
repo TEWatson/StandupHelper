@@ -6,7 +6,7 @@ module.exports = function(handler, table) {
     table
         .scan()
         .then(function(resp){
-            if (resp !== undefined) {
+            if (resp !== undefined && resp.length > 0) {
                 if (resp.length > 1) {
                     handler.emit(':tell', handler.t('LIST_MESSAGE_PLURAL', buildTeammateList(resp)));
                 }
