@@ -32,8 +32,14 @@ exports.handler = function(event, context, callback) {
         parser(emailObject.Body)
             .then(function(parsedMail) {
                 console.log("Parsed mail object: \n" + parsedMail);
-                sender = parsedMail.from.value[0].name;
+                var rawSender = parsedMail.from.value[0].name;
                 content = parsedMail.text;
+
+                // Handle LastName, FirstName case
+                if (rawSender.indexOf(",") > 0) {
+                    var splitStringArray = rawSender.split(",")
+                    sender = splitStringArray[1] + " " + splitStringArray[0]
+                } else {sender = rawSender}
 
                 // Store sender name and email body in Dynamo
                 standupUpdatesTable
