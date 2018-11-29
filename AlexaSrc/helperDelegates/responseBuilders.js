@@ -1,5 +1,7 @@
 'use strict';
 
+const responseEnhancements = require('../responseEnhancements');
+
 module.exports = {
     buildTeammateList : function(itemArray) {
         var aggregateString = "";
@@ -22,18 +24,26 @@ module.exports = {
             if (i < (length - 1) || length === 1) {
                 aggregateString =
                     aggregateString +
-                    "here is an update for " + itemArray[i].sender +
-                    ": <break time=\"500ms\"/> " + itemArray[i].content +
+                    "here is " + itemArray[i].sender + "'s update: " +
+                    "<break time=\"500ms\"/> " + itemArray[i].content +
                     " <break time=\"1s\"/>"
             }
             else {
                 aggregateString =
                     aggregateString +
-                    "and here is an update for " + itemArray[i].sender +
-                    ": <break time=\"500ms\"/> " + itemArray[i].content
+                    "and here is " + itemArray[i].sender + "'s update: " +
+                    "<break time=\"500ms\"/> " + itemArray[i].content
             }
         }
         return aggregateString
+    },
+
+    enhanceResponseText : function(responseText) {
+        var greetingList = responseEnhancements.greetings
+        var randomGreeting = greetingList[Math.floor(Math.random() * greetingList.length)];
+        var greeting = "<say-as interpret-as=\"interjection\">" + randomGreeting + "</say-as> <break time=\"300ms\"/> \n"
+
+        var enhanced = greeting + responseText;
+        return enhanced;
     }
 }
-
