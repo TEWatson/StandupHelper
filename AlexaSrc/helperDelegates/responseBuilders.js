@@ -43,7 +43,11 @@ module.exports = {
         var randomGreeting = greetingList[Math.floor(Math.random() * greetingList.length)];
         var greeting = "<say-as interpret-as=\"interjection\">" + randomGreeting + "</say-as> <break time=\"300ms\"/> \n"
 
-        var enhanced = greeting + responseText;
+        var goodbyeList = responseEnhancements.goodbyes
+        var randomGoodbye = goodbyeList[Math.floor(Math.random() * goodbyeList.length)];
+        var goodbye = "\n <break time=\"500ms\"/> <say-as interpret-as=\"interjection\">" + randomGoodbye + "</say-as>"
+
+        var enhanced = greeting + responseText + goodbye;
         return enhanced;
     }
 }
