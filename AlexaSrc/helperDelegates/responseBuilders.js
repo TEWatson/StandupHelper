@@ -26,7 +26,7 @@ module.exports = {
                     aggregateString +
                     "here is " + itemArray[i].sender + "'s update: " +
                     "<break time=\"500ms\"/> " + itemArray[i].content +
-                    " <break time=\"1s\"/>"
+                    " <break time=\"500ms\"/>"
             }
             else {
                 aggregateString =
@@ -39,15 +39,29 @@ module.exports = {
     },
 
     enhanceResponseText : function(responseText) {
+
+        function replaceEmailSubstrings(emailText) {
+            // Iterate over the replaceable substrings
+            var reps = responseEnhancements.replacements;
+            Object.keys(reps).forEach(
+                    function(key) {
+                        emailText = emailText.split(key).join(reps[key]);
+                    }
+                );
+            return emailText;
+        }
+
+        // Make replacements, e.g. "working from home" for "WFH"
+        responseText = replaceEmailSubstrings(responseText);
+
         var greetingList = responseEnhancements.greetings
         var randomGreeting = greetingList[Math.floor(Math.random() * greetingList.length)];
-        var greeting = "<say-as interpret-as=\"interjection\">" + randomGreeting + "</say-as> <break time=\"300ms\"/> \n"
+        var greeting = "<say-as interpret-as=\"interjection\">" + randomGreeting + "</say-as> <break time=\"250ms\"/> \n"
 
         var goodbyeList = responseEnhancements.goodbyes
         var randomGoodbye = goodbyeList[Math.floor(Math.random() * goodbyeList.length)];
-        var goodbye = "\n <break time=\"500ms\"/> <say-as interpret-as=\"interjection\">" + randomGoodbye + "</say-as>"
+        var goodbye = "\n <say-as interpret-as=\"interjection\">" + randomGoodbye + "</say-as>"
 
-        var enhanced = greeting + responseText + goodbye;
-        return enhanced;
+        return greeting + responseText + goodbye;
     }
 }
